@@ -38,13 +38,41 @@ const Register = () => {
 
     setIsSubmitting(true);
 
-    const res = await register(name, email, password);
-    if (res.success) {
-      navigate('/', { replace: true });
-    } else {
-      setErrorMsg(res.message);
-      setIsSubmitting(false);
-    }
+    const attempt = async () => {
+      const res = await register(name, email, password);
+      if (res.success) {
+        navigate('/', { replace: true });
+      } else if (res.retrying) {
+        // Server cold-starting — show message, then retry in 10 seconds
+        setErrorMsg(res.message);
+        setTimeout(async () => {
+          const retryRes = await register(name, email, password);
+          if (retryRes.success) {
+            navigate('/', { replace: true });
+          } else if (retryRes.retrying) {
+            // Still waking up — retry one more time
+            setErrorMsg('Server is still starting… retrying once more.');
+            setTimeout(async () => {
+              const finalRes = await register(name, email, password);
+              if (finalRes.success) {
+                navigate('/', { replace: true });
+              } else {
+                setErrorMsg(finalRes.message || 'Registration failed. Please try again.');
+                setIsSubmitting(false);
+              }
+            }, 15000);
+          } else {
+            setErrorMsg(retryRes.message || 'Registration failed. Please try again.');
+            setIsSubmitting(false);
+          }
+        }, 10000);
+      } else {
+        setErrorMsg(res.message);
+        setIsSubmitting(false);
+      }
+    };
+
+    attempt();
   };
 
   return (
@@ -102,7 +130,11 @@ const Register = () => {
           </div>
 
           {errorMsg && (
-            <div className="mb-6 px-4 py-3 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold flex items-center gap-2">
+            <div className={`mb-6 px-4 py-3 rounded-2xl border text-xs font-semibold flex items-center gap-2 ${
+              errorMsg.includes('starting up') || errorMsg.includes('retrying')
+                ? 'bg-amber-500/10 border-amber-500/20 text-amber-400'
+                : 'bg-red-500/10 border-red-500/20 text-red-400'
+            }`}>
               <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
@@ -201,12 +233,16 @@ const Register = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-emerald-600 hover:bg-emerald-50 text-white font-bold text-sm py-3 px-4 rounded-2xl shadow-lg shadow-emerald-600/10 hover:shadow-emerald-500/20 active:scale-[0.98] transition cursor-pointer flex items-center justify-center gap-2 mt-4"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm py-3 px-4 rounded-2xl shadow-lg shadow-emerald-600/10 active:scale-[0.98] transition cursor-pointer flex items-center justify-center gap-2 mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
                 <>
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                  <span>Signing Up...</span>
+                  <span>
+                    {errorMsg.includes('starting') || errorMsg.includes('retrying')
+                      ? 'Server Waking Up...'
+                      : 'Signing Up...'}
+                  </span>
                 </>
               ) : (
                 'Sign Up'
