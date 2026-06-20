@@ -105,15 +105,3 @@ Leave_management_system/
 4. Open the link displayed in the console (usually `http://localhost:5173`) in your browser.
 
 ---
-
-## 🔑 Demo Access Credentials
-
-The database auto-seeds the following credentials for testing:
-
-| Role | Email | Password | Preseeded Account Name |
-| :--- | :--- | :--- | :--- |
-| **Admin** | `admin@company.com` | `admin123` | Jane Admin |
-| **Manager** | `manager@company.com` | `manager123` | John Manager |
-| **Employee** | `employee@company.com` | `employee123` | Alice Employee |
-
-*Use the **quick fill** selectors on the Login Page to instantly fill credentials for these roles.*
