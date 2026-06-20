@@ -32,13 +32,6 @@ const Login = () => {
     }
   };
 
-  // Quick fill helper for demo ease-of-use
-  const handleQuickFill = (roleEmail, rolePass) => {
-    setEmail(roleEmail);
-    setPassword(rolePass);
-    setErrorMsg('');
-  };
-
   return (
     <div className="min-h-screen w-screen flex flex-col md:flex-row items-stretch bg-slate-950 font-sans text-slate-100 overflow-hidden relative">
       
@@ -173,39 +166,6 @@ const Login = () => {
                 Sign Up
               </Link>
             </p>
-          </div>
-
-          {/* Quick Demo Login Credentials Selector */}
-          <div className="mt-8 pt-6 border-t border-slate-800/80">
-            <p className="text-[11px] font-bold tracking-widest text-emerald-500 uppercase mb-3 text-center md:text-left">
-              Demo Roles (Quick Select)
-            </p>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                onClick={() => handleQuickFill('admin@company.com', 'admin123')}
-                className="flex flex-col items-center justify-center p-2.5 rounded-xl border border-slate-800 bg-slate-950/30 hover:border-purple-500/30 hover:bg-purple-500/5 transition cursor-pointer"
-              >
-                <span className="text-[10px] font-bold text-purple-400">Admin</span>
-                <span className="text-[8px] text-slate-500 mt-0.5">Jane Admin</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleQuickFill('manager@company.com', 'manager123')}
-                className="flex flex-col items-center justify-center p-2.5 rounded-xl border border-slate-800 bg-slate-950/30 hover:border-blue-500/30 hover:bg-blue-500/5 transition cursor-pointer"
-              >
-                <span className="text-[10px] font-bold text-blue-400">Manager</span>
-                <span className="text-[8px] text-slate-500 mt-0.5">John Manager</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleQuickFill('employee@company.com', 'employee123')}
-                className="flex flex-col items-center justify-center p-2.5 rounded-xl border border-slate-800 bg-slate-950/30 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition cursor-pointer"
-              >
-                <span className="text-[10px] font-bold text-emerald-400">Employee</span>
-                <span className="text-[8px] text-slate-500 mt-0.5">Alice Emp</span>
-              </button>
-            </div>
           </div>
 
         </div>
