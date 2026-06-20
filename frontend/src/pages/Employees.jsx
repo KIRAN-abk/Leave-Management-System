@@ -164,14 +164,14 @@ const Employees = () => {
   };
 
   // Filters
-  const filteredEmployees = employees.filter(emp => {
+  const filteredEmployees = (employees || []).filter(emp => {
     const term = searchQuery.toLowerCase();
-    return (
-      emp.name.toLowerCase().includes(term) ||
-      emp.email.toLowerCase().includes(term) ||
-      emp.role.toLowerCase().includes(term) ||
-      (emp.department?.name && emp.department.name.toLowerCase().includes(term))
-    );
+    const nameMatch = emp.name ? emp.name.toLowerCase().includes(term) : false;
+    const emailMatch = emp.email ? emp.email.toLowerCase().includes(term) : false;
+    const roleMatch = emp.role ? emp.role.toLowerCase().includes(term) : false;
+    const deptMatch = emp.department?.name ? emp.department.name.toLowerCase().includes(term) : false;
+    
+    return nameMatch || emailMatch || roleMatch || deptMatch;
   });
 
   return (
@@ -483,13 +483,13 @@ const Employees = () => {
             </div>
 
             <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
-              {selectedEmpBalances.leaveBalances.length === 0 ? (
+              {(!selectedEmpBalances.leaveBalances || selectedEmpBalances.leaveBalances.length === 0) ? (
                 <div className="text-center text-slate-400 py-8 text-sm">
                   No active leave policies assigned to this employee.
                 </div>
               ) : (
                 <div className="space-y-3.5">
-                  {selectedEmpBalances.leaveBalances.map((bal) => {
+                  {(selectedEmpBalances.leaveBalances || []).map((bal) => {
                     const allocated = bal.allocated;
                     const used = bal.used;
                     const remaining = allocated - used;
@@ -510,7 +510,7 @@ const Employees = () => {
                         <div className="w-full bg-slate-200 h-1.5 rounded-full mt-2.5 overflow-hidden">
                           <div 
                             className="bg-emerald-500 h-full rounded-full transition-all"
-                            style={{ width: `${Math.min(100, (used / allocated) * 100)}%` }}
+                            style={{ width: `${allocated > 0 ? Math.min(100, (used / allocated) * 100) : 0}%` }}
                           ></div>
                         </div>
                       </div>
