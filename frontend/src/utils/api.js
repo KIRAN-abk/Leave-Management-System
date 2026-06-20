@@ -7,6 +7,11 @@ const api = axios.create({
   },
 });
 
+export const getBackendURL = () => {
+  const apiURL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  return apiURL.replace(/\/api\/?$/, ''); // Removes trailing /api
+};
+
 // Interceptor to inject JWT token in every request
 api.interceptors.request.use(
   (config) => {

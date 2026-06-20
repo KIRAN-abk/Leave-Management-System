@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { ShieldCheck, UserCheck, Shield } from 'lucide-react';
+import { getBackendURL } from '../utils/api';
 
 const Header = ({ title }) => {
   const { user } = useAuth();
@@ -55,7 +56,7 @@ const Header = ({ title }) => {
           
           {user?.profileImage ? (
             <img 
-              src={`http://localhost:5000${user.profileImage}`} 
+              src={`${getBackendURL()}${user.profileImage}`} 
               alt={user.name} 
               className="h-9 w-9 rounded-xl object-cover border border-slate-200 shadow-sm"
               onError={(e) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import DashboardLayout from '../components/DashboardLayout';
-import api from '../utils/api';
+import api, { getBackendURL } from '../utils/api';
 import { 
   Plus, 
   Calendar, 
@@ -348,7 +348,7 @@ const Leaves = () => {
                         </p>
                         {req.attachment && (
                           <a
-                            href={`http://localhost:5000${req.attachment}`}
+                            href={`${getBackendURL()}${req.attachment}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1 text-xs text-emerald-600 hover:text-emerald-700 font-bold mt-1"
@@ -558,7 +558,7 @@ const Leaves = () => {
                   <p>
                     <strong>Attachment:</strong>{' '}
                     <a
-                      href={`http://localhost:5000${selectedRequest.attachment}`}
+                      href={`${getBackendURL()}${selectedRequest.attachment}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-emerald-600 hover:text-emerald-700 underline font-bold"
