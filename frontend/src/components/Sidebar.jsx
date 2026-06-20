@@ -69,8 +69,8 @@ const Sidebar = ({ isOpen, onClose }) => {
   const navItems = getNavigation();
 
   return (
-    <aside className={`w-64 bg-slate-900 text-slate-100 flex flex-col h-screen fixed inset-y-0 left-0 z-40 border-r border-slate-800 transition-transform duration-300 md:static md:translate-x-0 ${
-      isOpen ? 'translate-x-0' : '-translate-x-full'
+    <aside className={`w-64 bg-slate-900 text-slate-100 flex flex-col h-screen fixed inset-y-0 left-0 z-40 border-r border-slate-800 transition-transform duration-300 ${
+      isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
     }`}>
       {/* Brand Header */}
       <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800 bg-slate-950">
