@@ -231,7 +231,7 @@ const Employees = () => {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="h-9 w-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm border border-emerald-100">
-                          {emp.name.charAt(0)}
+                          {emp.name ? emp.name.charAt(0) : 'U'}
                         </div>
                         <div>
                           <p className="font-semibold text-slate-800">{emp.name}</p>
@@ -258,7 +258,7 @@ const Employees = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-slate-500">
-                      {new Date(emp.joinedDate).toLocaleDateString()}
+                      {emp.joinedDate ? new Date(emp.joinedDate).toLocaleDateString() : 'N/A'}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
