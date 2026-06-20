@@ -105,7 +105,7 @@ const Employees = () => {
       department: emp.department?._id || '',
       manager: emp.manager?._id || '',
       status: emp.status,
-      joinedDate: new Date(emp.joinedDate).toISOString().split('T')[0]
+      joinedDate: emp.joinedDate ? new Date(emp.joinedDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
     });
     setErrorMsg('');
     setShowModal(true);

@@ -130,7 +130,7 @@ const updateEmployee = async (req, res) => {
     const policies = await LeavePolicy.find({});
     policies.forEach((policy) => {
       const balanceExists = employee.leaveBalances.find(
-        (b) => b.leaveType.toString() === policy._id.toString()
+        (b) => b.leaveType && b.leaveType.toString() === policy._id.toString()
       );
       if (!balanceExists) {
         employee.leaveBalances.push({

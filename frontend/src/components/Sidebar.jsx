@@ -10,10 +10,11 @@ import {
   BarChart3, 
   KeyRound, 
   LogOut,
-  Shield
+  Shield,
+  X
 } from 'lucide-react';
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose }) => {
   const { user, logout } = useAuth();
 
   const getNavigation = () => {
@@ -68,20 +69,31 @@ const Sidebar = () => {
   const navItems = getNavigation();
 
   return (
-    <aside className="w-64 bg-slate-900 text-slate-100 flex flex-col h-screen sticky top-0 border-r border-slate-800">
+    <aside className={`w-64 bg-slate-900 text-slate-100 flex flex-col h-screen fixed inset-y-0 left-0 z-40 border-r border-slate-800 transition-transform duration-300 md:static md:translate-x-0 ${
+      isOpen ? 'translate-x-0' : '-translate-x-full'
+    }`}>
       {/* Brand Header */}
-      <div className="h-16 flex items-center px-6 gap-3 border-b border-slate-800 bg-slate-950">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500 text-white shadow-lg shadow-emerald-500/30">
-          <Shield size={20} className="stroke-[2.5]" />
+      <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800 bg-slate-950">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500 text-white shadow-lg shadow-emerald-500/30">
+            <Shield size={20} className="stroke-[2.5]" />
+          </div>
+          <div>
+            <h1 className="font-bold text-sm tracking-wide bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+              LEAVE PORTAL
+            </h1>
+            <p className="text-[10px] text-emerald-400 font-semibold tracking-widest uppercase">
+              MERN Enterprise
+            </p>
+          </div>
         </div>
-        <div>
-          <h1 className="font-bold text-sm tracking-wide bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-            LEAVE PORTAL
-          </h1>
-          <p className="text-[10px] text-emerald-400 font-semibold tracking-widest uppercase">
-            MERN Enterprise
-          </p>
-        </div>
+        {/* Mobile close button */}
+        <button
+          onClick={onClose}
+          className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 block md:hidden transition cursor-pointer"
+        >
+          <X size={18} />
+        </button>
       </div>
 
       {/* Navigation Links */}
@@ -92,6 +104,7 @@ const Sidebar = () => {
             <NavLink
               key={item.path}
               to={item.path}
+              onClick={onClose}
               className={({ isActive }) => `
                 flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition duration-200 group
                 ${isActive 
